@@ -37,5 +37,5 @@
   tasks:
   - name: Build Jar 
     ansible.builtin.command:
-      chdir: /home/ec2-user/java-maven-app
+      chdir: /home/ec2-user/ansible-exercise/java-maven-app
       cmd: mvn clean install
