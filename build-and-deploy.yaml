@@ -32,3 +32,8 @@
         export PATH=$PATH:$M2_HOME/bin
       create: yes
       state: present
+  handlers:
+  - name: Source Maven path
+    become: True
+    become_user: ec2-user
+    command: source /home/ec2-user/.bashrc
