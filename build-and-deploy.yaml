@@ -30,3 +30,12 @@
       line: |
         export M2_HOME=/opt/apache-maven-3.9.6
         export PATH=$PATH:$M2_HOME/bin
+
+- name: Build the application
+  hosts: 3.17.9.52
+  gather_facts: False
+  tasks:
+  - name: Build Jar 
+    ansible.builtin.command:
+      chdir: /home/ec2-user/java-maven-app
+      cmd: mvn clean install
