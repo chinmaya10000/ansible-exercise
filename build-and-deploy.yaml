@@ -26,15 +26,7 @@
       remote_src: yes
   - name: Ensure Maven is in PATH for ec2-user
     ansible.builtin.lineinfile:
-      path: /home/ec2-user/.bashrc
+      path: /home/ec2-user/.bash_profile
       line: |
         export M2_HOME=/opt/apache-maven-3.9.6
         export PATH=$PATH:$M2_HOME/bin
-      create: yes
-      state: present
-    notify: Source Maven path
-  handlers:
-  - name: Source Maven path
-    become: True
-    become_user: ec2-user
-    command: source /home/ec2-user/.bashrc
