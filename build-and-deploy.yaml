@@ -1,0 +1,13 @@
+--- 
+- name: Install java and maven
+  hosts: 3.17.9.52
+  become: yes
+  tasks:
+  - name: Update yum repo cache
+    ansible.builtin.yum:
+      update_cache: yes
+  - name: Install java
+    ansible.builtin.yum:
+      name: java-11-amazon-corretto
+      state: present
+      
