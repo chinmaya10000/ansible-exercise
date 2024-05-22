@@ -8,3 +8,17 @@
       region: us-east-2
     register: vpc_result
   - ansible.builtin.debug: msg="{{ vpc_result }}"
+
+  - name: Start an instance with public IP address
+    amazon.aws.ec2_instance:
+      name: "jenkins-server"
+      key_name: "ansible01feb_key"
+      vpc_subnet_id: subnet-0febe3e96786ab81b
+      instance_type: t2.micro
+      security_group: ansible-sg
+      network:
+        assign_public_ip: true
+      image_id: ami-02bf8ce06a8ed6092
+      tags:
+        server: Jenkins
+    register: ec2_result 
