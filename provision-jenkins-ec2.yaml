@@ -2,46 +2,11 @@
 - name: Provision Jenkins server
   hosts: localhost
   gather_facts: false
+  vars_files:
+  - jenkins-vars
   tasks:
   - name: Get vpc_information
     amazon.aws.ec2_vpc_net_info:
-      region: us-east-2
+      region: "{{ region }}"
     register: vpc_result
   - ansible.builtin.debug: msg="{{ vpc_result }}"
-
-  - name: Start an instance with public IP address
-    amazon.aws.ec2_instance:
-      name: "jenkins-server"
-      key_name: "ansible01feb_key"
-      region: us-east-2
-      vpc_subnet_id: subnet-0febe3e96786ab81b
-      instance_type: t2.micro
-      security_group: ansible-sg
-      network:
-        assign_public_ip: true
-      image_id: ami-02bf8ce06a8ed6092
-      tags:
-        server: Jenkins
-    register: ec2_result 
-
-  # On creation, ec2_result object doesn't get public_ip attribute immediately, cuz the assignment takes time, so we wait and then query again
-  - ansible.builtin.pause:
-      seconds: 60
-  - name: Get public_ip address of the ec2 instance
-    amazon.aws.ec2_instance_info:
-      region: us-east-2
-      instance_ids: 
-      - "{{ ec2_result.instance_ids[0] }}"
-    register: ec2_result
-  #- ansible.builtin.debug: msg="{{ ec2_result }}"
-  - name: Ensure the hosts-jenkins-server file exists
-    ansible.builtin.file:
-      path: hosts-jenkins-server
-      state: touch
-  - name: Update host file
-    ansible.builtin.lineinfile:
-      path: "hosts-jenkins-server"
-      line: "{{ ec2_result.instances[0].public_ip_address }} ansible_ssh_private_key_file=/home/ec2-user/ansible01feb_key.pem ansible_user=ec2-user"
-      insertbefore: BOF
-    register: file_result
-  #- ansible.builtin.debug: msg="{{ file_result }}"
