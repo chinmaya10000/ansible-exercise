@@ -33,4 +33,4 @@
       instance_ids: 
       - "{{ ec2_result.instance_ids[0] }}"
     register: ec2_result
-    
+  - ansible.builtin.debug: msg="{{ ec2_result }}"
