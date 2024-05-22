@@ -1,0 +1,23 @@
+---
+- name: Get server IP 
+  hosts: localhost
+  gather_facts: false 
+  vars_files:
+  - jenkins-vars
+  tasks:
+  - name: Get public IP address of the ec2 instance
+    amazon.aws.ec2_instance_info:
+      region: "{{ region }}"
+      filters:
+        "tag:Name": "jenkins-server"
+    register: ec2_result
+
+- name: Prepare server for Jenkins 
+  hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  become: yes
+  tasks:
+  - name: Install Java
+    ansible.builtin.yum:
+      name: java-11-amazon-corretto
+      state: present
+    
