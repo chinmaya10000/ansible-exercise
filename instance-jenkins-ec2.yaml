@@ -59,6 +59,6 @@
     ansible.builtin.slurp: 
       src: /var/lib/jenkins/secrets/initialAdminPassword
     register: jenkins_pwd
-  - ansible.builtin.debug: msg="{{ jenkins_pwd['content'] }}"
+  - ansible.builtin.debug: msg="{{ jenkins_pwd['content'] | b64decode }}"
 
      
