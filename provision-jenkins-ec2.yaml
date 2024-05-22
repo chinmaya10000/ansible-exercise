@@ -23,3 +23,12 @@
       tags:
         server: Jenkins
     register: ec2_result 
+
+  # On creation, ec2_result object doesn't get public_ip attribute immediately, cuz the assignment takes time, so we wait and then query again
+  - ansible.builtin.pause:
+      seconds: 60
+  - name: Get public_ip address of the ec2 instance
+    amazon.aws.ec2_instance_info:
+      region: us-east-2
+      instance_ids: 
+      - "{{ ec2_result }}"
