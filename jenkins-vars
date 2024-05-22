@@ -1,1 +1,4 @@
 region: us-east-2
+key_name: ansible01feb_key
+subnet_id: subnet-0d7a8c55ea5cc6c8a
+ami_id: ami-02bf8ce06a8ed6092
