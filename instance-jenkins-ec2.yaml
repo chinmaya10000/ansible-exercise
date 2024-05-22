@@ -19,3 +19,32 @@
       name: java-11-amazon-corretto
       update_cache: yes
       state: present
+  - name: Install Jenkins repository
+    ansible.builtin.get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+  - name: Import RPM key 
+    ansible.builtin.rpm_key:
+      state: present
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+  - name: Install /etc/yum.repos.d/jenkins.repo
+    ansible.builtin.yum:
+      name: jenkins
+      update_cache: yes
+      state: present
+ 
+- name: Start Jenkins
+  hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  become: yes
+  tasks: 
+  - name: Start Jenkins server
+    ansible.builtin.service:
+      name: jenkins
+      state: started
+  - name: Wait 10 second to check the jenkins port 
+    ansible.builtin.pause:
+      seconds: 10
+  - name: Check that application started with netstat
+    ansible.builtin.command: netstat -ntlp
+    register: app_status
+  - ansible.builtin.debug: msg="{{ app_status }}"
