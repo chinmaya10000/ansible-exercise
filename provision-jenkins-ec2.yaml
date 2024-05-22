@@ -31,4 +31,4 @@
     amazon.aws.ec2_instance_info:
       region: us-east-2
       instance_ids: 
-      - "{{ ec2_result }}"
+      - "{{ ec2_result.instance_ids[0] }}"
