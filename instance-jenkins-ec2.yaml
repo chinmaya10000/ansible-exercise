@@ -7,7 +7,7 @@
     amazon.aws.ec2_instance_info:
       region: us-east-2
       filters:
-      "tag:Name": "jenkins-server"
+        "tag:Name": "jenkins-server"
     register: ec2_result
 
 - name: Prepare server for Jenkins
