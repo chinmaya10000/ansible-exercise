@@ -13,6 +13,7 @@
     amazon.aws.ec2_instance:
       name: "jenkins-server"
       key_name: "ansible01feb_key"
+      region: us-east-2
       vpc_subnet_id: subnet-0febe3e96786ab81b
       instance_type: t2.micro
       security_group: ansible-sg
