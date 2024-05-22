@@ -34,6 +34,10 @@
       - "{{ ec2_result.instance_ids[0] }}"
     register: ec2_result
   #- ansible.builtin.debug: msg="{{ ec2_result }}"
+  - name: Ensure the hosts-jenkins-server file exists
+    ansible.builtin.file:
+      path: hosts-jenkins-server
+      state: touch
   - name: Update host file
     ansible.builtin.lineinfile:
       path: "hosts-jenkins-server"
