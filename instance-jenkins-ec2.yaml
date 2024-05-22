@@ -40,5 +40,25 @@
       update_cache: yes
       state: present
 
+- name: Start Jenkins
+  hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  become: yes
+  tasks: 
+  - name: Start Jenkins server 
+    ansible.builtin.service:
+      name: jenkins
+      state: started
+  - name: wait 10 second to check the jenkins port 
+    ansible.builtin.pause:
+      seconds: 10
+  - name: check that application started with netstat
+    ansible.builtin.command: netstat -plnt
+    register: app_status
+  - ansible.builtin.debug: msg="{{ app_status }}"
+  - name: Print out jenkins admin password
+    ansible.builtin.slurp: 
+      src: /var/lib/jenkins/secrets/initialAdminPassword
+    register: jenkins_pwd
+  - ansible.builtin.debug: msg="{{ jenkins_pwd['content'] }}"
 
      
