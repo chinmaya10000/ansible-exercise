@@ -48,3 +48,8 @@
     ansible.builtin.command: netstat -ntlp
     register: app_status
   - ansible.builtin.debug: msg="{{ app_status }}"
+  - name: Print out jenkins admin password
+    ansible.builtin.slurp:
+      src: /var/lib/jenkins/secrets/initialAdminPassword
+    register: jenkins_pwd
+  - ansible.builtin.debug: msg="{{ jenkins_pwd['content'] }}"
