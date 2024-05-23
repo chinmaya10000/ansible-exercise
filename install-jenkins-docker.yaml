@@ -42,6 +42,7 @@
 
 - name: Start Jenkins container on ec2 Instance 
   hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  become: yes
   tasks:
   - name: Get location of docker executable
     ansible.builtin.command:
