@@ -39,3 +39,23 @@
       append: yes
   - name: Reconnect to server session
     ansible.builtin.meta: reset_connection
+
+- name: Start Jenkins container on ec2 Instance 
+  hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  tasks:
+  - name: Get location of docker executable
+    ansible.builtin.command:
+      cmd: which docker 
+    register: docker_result
+  
+  - name: Start Jenkins container 
+    community.docker.docker_container:
+      name: jenkins
+      image: jenkins/jenkins:lts
+      volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "{{ docker_result.stdout }}:/usr/bin/docker"
+      ports:
+      - 8080:8080
+      - 50000:50000 
