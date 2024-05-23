@@ -39,6 +39,11 @@
       name: jenkins
       update_cache: yes
       state: present
+  - name: Install docker
+    ansible.builtin.yum:
+      name: docker
+      update_cache: yes
+      state: present
 
 - name: Start Jenkins
   hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
