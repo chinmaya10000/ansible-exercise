@@ -62,10 +62,10 @@
       - 50000:50000
       privileged: yes
     
-  - name: Set Docker permission inside Jenkins container
-    community.docker.docker_container_exec:
-      container: jenkins
-      command: chmod 666 /var/run/docker.sock
+  #- name: Set Docker permission inside Jenkins container
+    #community.docker.docker_container_exec:
+      #container: jenkins
+      #command: chmod 666 /var/run/docker.sock
     
   - name: Get Jenkins admin password from the container
     community.docker.docker_container_exec:
