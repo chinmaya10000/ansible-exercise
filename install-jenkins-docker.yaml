@@ -27,3 +27,15 @@
       name: docker
       state: started
       enabled: yes
+
+- name: Add user to docker group 
+  hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  become: yes
+  tasks:
+  - name: Add ec2-user to docker group 
+    ansible.builtin.user:
+      name: ec2-user
+      group: docker
+      append: yes
+  - name: Reconnect to server session
+    ansible.builtin.meta: reset_connection
