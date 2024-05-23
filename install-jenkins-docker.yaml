@@ -22,3 +22,8 @@
       name: docker 
       update_cache: yes
       state: latest
+  - name: Start Docker
+    ansible.builtin.systemd:
+      name: docker
+      state: started
+      enabled: yes
