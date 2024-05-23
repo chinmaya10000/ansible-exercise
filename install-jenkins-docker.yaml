@@ -77,5 +77,5 @@
     #until: jenkins_pwd.exit_code == 0
   
   - name: Print Jenkins admin password
-    ansible.builtin.debug: msg={{ jenkins_pwd }}
+    ansible.builtin.debug: msg="{{jenkins_pwd.stdout }}"
       
