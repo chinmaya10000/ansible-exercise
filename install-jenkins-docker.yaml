@@ -59,7 +59,8 @@
       - "{{ docker_result.stdout }}:/usr/bin/docker"
       ports:
       - 8080:8080
-      - 50000:50000 
+      - 50000:50000
+      privileged: yes
     
   - name: Set Docker permission inside Jenkins container
     community.docker.docker_container_exec:
