@@ -74,8 +74,8 @@
     register: jenkins_pwd 
     retries: 5
     delay: 10
-    until: jenkins_pwd.exit_code == 0
+    #until: jenkins_pwd.exit_code == 0
   
   - name: Print Jenkins admin password
-    ansible.builtin.debug:
-      msg: "Jenkins admin password: {{ jenkins_pwd.stdout }}"
+    ansible.builtin.debug: msg={{ jenkins_pwd }}
+      
