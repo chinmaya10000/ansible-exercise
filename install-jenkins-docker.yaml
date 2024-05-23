@@ -59,3 +59,21 @@
       ports:
       - 8080:8080
       - 50000:50000 
+    
+  - name: Set Docker permission inside Jenkins container
+    community.docker.docker_container_exec:
+      container: jenkins
+      command: chmod 666 /var/run/docker.sock
+    
+  - name: Get Jenkins admin password from the container
+    community.docker.docker_container_exec:
+      container: jenkins
+      command: cat /var/jenkins_home/secrets/initialAdminPassword
+    register: jenkins_pwd 
+    retries: 5
+    delay: 10
+    until: jenkins_pwd.exit_code == 0
+  
+  - name: Print Jenkins admin password
+    ansible.builtin.debug:
+      msg: "Jenkins admin password: {{ jenkins_pwd.stdout }}"
