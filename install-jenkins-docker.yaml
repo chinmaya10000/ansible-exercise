@@ -59,8 +59,6 @@
       - "{{ docker_result.stdout }}:/usr/bin/docker"
       ports:
       - 8080:8080
-      - 50000:50000
-      privileged: yes
     
   #- name: Set Docker permission inside Jenkins container
     #community.docker.docker_container_exec:
@@ -78,4 +76,14 @@
   
   - name: Print Jenkins admin password
     ansible.builtin.debug: msg="{{jenkins_pwd.stdout }}"
-      
+
+- name: Set Docker permission
+  hosts: "{{ hostvars['localhost']['ec2_result'].instances[0].public_ip_address }}"
+  become: yes
+  tasks:  
+  - name: Set docker permission for Jenkins user
+    ansible.builtin.file:
+      path: '/var/run/docker.sock'
+      mode: '666'
+
+  
