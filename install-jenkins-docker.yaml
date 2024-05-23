@@ -70,8 +70,8 @@
       container: jenkins
       command: cat /var/jenkins_home/secrets/initialAdminPassword
     register: jenkins_pwd 
-    retries: 5
-    delay: 10
+    #retries: 5
+    #delay: 10
     until: jenkins_pwd.stdout != '' and jenkins_pwd.stdout != null
   
   - name: Print Jenkins admin password
