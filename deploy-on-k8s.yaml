@@ -10,7 +10,7 @@
     kubernetes.core.k8s:
       state: present 
       kubeconfig: ~/.kube/config
-      defination:
+      definition:
         apiVersion: v1 
         kind: Secret 
         type: kubernetes.io/dockerconfigjson
