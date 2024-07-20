@@ -19,3 +19,15 @@
           namespace: default  
         data: 
           .dockerconfigjson: "{{ lookup('file', '~/.docker/config.json') | b64encode }}"
+  - name: Add Bitnami repository
+    kubernetes.core.helm_repository:
+      name: bitnami 
+      repo_url: https://charts.bitnami.com/bitnami
+      kubeconfig: ~/.kube/config
+  - name: Deploy Mysql chart with 3 replicas 
+    kubernetes.core.helm: 
+      name: mysql-release
+      chart_ref: bitnami/mysql
+      release_namespace: default
+      values: "{{ lookup('file', 'kubernetes-manifests/mysql-chart-values-minikube.yaml') | from_yaml }}"
+      
