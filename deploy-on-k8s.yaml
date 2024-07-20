@@ -17,4 +17,4 @@
           name: my-registry-key
           namespace: default  
         data: 
-          .dockerconfigjson: "{{ lookup('file', '~/.docker/config.json') | b64encode}}"
+          .dockerconfigjson: "{{ lookup('file', '~/.docker/config.json') | b64encode }}"
