@@ -9,6 +9,7 @@
   - name: Create Docker registry secret 
     kubernetes.core.k8s:
       state: present 
+      kubeconfig: ~/.kube/config
       defination:
         apiVersion: v1 
         kind: Secret 
